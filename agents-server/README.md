@@ -1,3 +1,8 @@
+
+> **Nota Importante**
+> La forma recomendada de levantar este proyecto es a través de la configuración de Docker centralizada en la raíz del repositorio. Por favor, consulta el [README.md principal](../../README.md) para ver las instrucciones completas.
+> Las instrucciones a continuación son para referencia o para desarrollo manual del servicio de forma aislada.
+
 # NLW Agents
 
 Proyecto desarrollado para crear una API robusta y eficiente.
@@ -159,6 +164,4 @@ src/
 └── server.ts        # Punto de entrada de la aplicación
 ```
 
----
-
-Desarrollado con ❤️ durante el NLW de Rocketseat 
+ 

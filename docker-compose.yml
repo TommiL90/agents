@@ -1,0 +1,42 @@
+
+version: '3.8'
+
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./agents-server/docker/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+    environment:
+      - POSTGRES_DB=agents
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+    ports:
+      - "5432:5432"
+
+  server:
+    build:
+      context: ./agents-server
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://docker:docker@db:5432/agents
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - PORT=3333
+    command: >
+      sh -c "
+        node --experimental-strip-types src/server.ts
+      "
+
+  web:
+    build:
+      context: ./agents-web
+      dockerfile: Dockerfile
+    ports:
+      - "5173:4321"
+    depends_on:
+      - server
+
+volumes:
+  pgdata:

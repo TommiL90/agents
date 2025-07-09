@@ -29,12 +29,13 @@ Este proyecto demuestra la integración de tecnologías modernas para crear un s
 - **Google Gemini AI** para transcripción y embeddings
 - **Docker** para containerización
 
-## 🚀 Levantamiento Local
+## 🚀 Levantamiento con Docker (Recomendado)
+
+Este método levanta toda la aplicación (frontend, backend y base de datos) en contenedores Docker. Es la forma más sencilla de empezar.
 
 ### Prerrequisitos
 
-- **Node.js** (versión 18 o superior)
-- **Docker** y Docker Compose
+- **Docker** y **Docker Compose**
 - **Git**
 
 ### 1. Clona el repositorio
@@ -44,86 +45,40 @@ git clone <url-del-repositorio>
 cd agents
 ```
 
-### 2. Configura el Backend
+### 2. Configura tu API Key
+
+Crea un archivo `.env` a partir del ejemplo:
 
 ```bash
-# Entra al directorio del servidor
-cd agents-server
-
-# Instala dependencias
-npm install
-
-# Levanta la base de datos PostgreSQL
-docker-compose up -d
-
-# Copia el archivo de variables de entorno
-cp env.example .env
-
-# Edita el archivo .env con tus credenciales
-# Especialmente GEMINI_API_KEY de Google
-
-# Ejecuta las migraciones
-npx drizzle-kit migrate
-
-# (Opcional) Popula con datos de ejemplo
-npm run db:seed
-
-# Inicia el servidor en modo desarrollo
-npm run dev
+cp .env.example .env
 ```
 
-El backend estará disponible en `http://localhost:3333`
+Luego, edita el archivo `.env` y añade tu `GEMINI_API_KEY` de Google.
 
-### 3. Configura el Frontend
+### 3. Levanta la aplicación
 
 ```bash
-# En otra terminal, entra al directorio del frontend
-cd agents-web
-
-# Instala dependencias
-npm install
-
-# Inicia el servidor de desarrollo
-npm run dev
+docker-compose up --build
 ```
 
-El frontend estará disponible en `http://localhost:5173`
+La primera vez, la construcción puede tardar unos minutos. Una vez finalizado, el frontend estará disponible en `http://localhost:5173`.
 
-## 📁 Estructura del Proyecto
+Para detener la aplicación, presiona `Ctrl + C` en la terminal donde se está ejecutando `docker-compose` y luego ejecuta:
 
-```
-agents/
-├── agents-server/          # Backend API
-│   ├── src/
-│   │   ├── db/            # Configuración de base de datos
-│   │   ├── http/routes/   # Endpoints de la API
-│   │   ├── services/      # Servicios de IA
-│   │   └── server.ts      # Punto de entrada
-│   ├── docker/            # Configuración de Docker
-│   └── env.example        # Variables de entorno
-├── agents-web/            # Frontend React
-│   ├── src/
-│   │   ├── components/    # Componentes reutilizables
-│   │   ├── pages/         # Páginas de la aplicación
-│   │   ├── http/          # Cliente HTTP y tipos
-│   │   └── lib/           # Utilidades
-│   └── env.example        # Variables de entorno
-└── README.md              # Este archivo
+```bash
+docker-compose down
 ```
 
-## 🔧 Variables de Entorno
+## 🔧 Variable de Entorno
 
-### Backend (.env)
+La única variable de entorno que necesitas configurar se encuentra en el archivo `.env` en la raíz del proyecto:
+
 ```env
-PORT=3333
-DATABASE_URL=postgresql://docker:docker@localhost:5432/agents
+# Clave de API para los servicios de IA de Google
 GEMINI_API_KEY=tu_api_key_de_google_gemini_aqui
 ```
 
-### Frontend (.env) - Opcional
-```env
-VITE_API_URL=http://localhost:3333
-```
+El resto de variables necesarias para la comunicación entre servicios ya están pre-configuradas en el archivo `docker-compose.yml` para funcionar dentro del entorno de Docker.
 
 ## 🌐 Endpoints Principales
 
@@ -207,6 +162,4 @@ npm run preview      # Vista previa del build
 - [Documentación de Drizzle ORM](https://orm.drizzle.team/)
 - [Documentación de Fastify](https://www.fastify.io/)
 
----
-
-Desarrollado con ❤️ durante el NLW de Rocketseat 
+ 

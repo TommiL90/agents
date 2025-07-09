@@ -1,3 +1,8 @@
+
+> **Nota Importante**
+> La forma recomendada de levantar este proyecto es a través de la configuración de Docker centralizada en la raíz del repositorio. Por favor, consulta el [README.md principal](../../README.md) para ver las instrucciones completas.
+> Las instrucciones a continuación son para referencia o para desarrollo manual del servicio de forma aislada.
+
 # Agents
 
 Proyecto desarrollado para demostrar el uso de agentes inteligentes en la web.
